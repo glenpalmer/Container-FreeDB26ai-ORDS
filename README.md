@@ -114,7 +114,7 @@ Run the installation of apex, there are 2 commands where one will us local image
 sqlplus sys/password@localhost:1521/FREEPDB1 as sysdba
 
 @apexins.sql APEX APEX TEMP /i/
-@apexins.sql APEX APEX TEMP https://static.oracle.com/cdn/apex/24.2.0/
+@apexins.sql APEX APEX TEMP https://static.oracle.com/cdn/apex/26.1.0/
 
 exit
 ```
@@ -144,4 +144,113 @@ sqlplus sys/password@localhost:1521/FREEPDB1 as sysdba
 @apex_rest_config.sql
 
 exit
+```
+
+Exit from the terminal session connected to the Database container.
+
+**Docker**
+```
+exit
+```
+
+**Podman***
+```
+exit
+```
+
+## Run Container ORDS
+
+Run the container for the Oracle RESTful Data Services (ORDS), first create a local directory structure to map a volume to so data can be persistent, else the data files from the ORDS configuration will be removed when the container is stopped.
+
+In this example the local directory ~/Podman/ords2611/config will be mapped to the conatiner directory /etc/ords/config
+
+Notice the first time this container is run, the 'install' option is used.
+
+**Docker**
+```
+docker run --rm -it --name ords2611 --network oracle-network -p 8080:8080 -e DBHOST=orafree26ai -e DBPORT=1521 -e DBSERVICE=freepdb1 -e ORACLE_PWD=passsword -v ~/Container/oraords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest install
+```
+
+**Podman**
+```
+podman run --rm -it --name ords2611 --network oracle-network -p 8080:8080 -e DBHOST=orafree26ai -e DBPORT=1521 -e DBSERVICE=freepdb1 -e ORACLE_PWD=passsword -v ~/Podman/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest install
+```
+
+The container will run in the terminal and as the 'install' option has been used, prompts will be returned to configure ORDS which will be saved in the config file.  Note that the contaier of the database (orafree26ai) must be running as ORDS will be installed.  The following prompts will appear:
+
+```
+INFO : Running Oracle REST Data Services CLI command.
+2026-06-06T13:24:22Z INFO   ORDS has not detected the option '--config' and this will be set up to the default directory.
+
+ORDS: Release 26.1 Production on Sat Jun 06 13:24:24 2026
+
+Copyright (c) 2010, 2026, Oracle.
+
+Configuration:
+  /etc/ords/config
+
+The configuration folder /etc/ords/config does not contain any configuration files.
+
+Oracle REST Data Services - Interactive Install
+
+  Enter a number to select the database connection type to use
+    [1] Basic (host name, port, service name)
+    [2] TNS (TNS alias, TNS directory)
+    [3] Custom database URL
+  Choose [1]: 1
+  Enter the database host name [localhost]: orafree26ai
+  Enter the database listen port [1521]: 1521
+  Enter the database service name [orcl]: freepdb1
+  Provide database user name with administrator privileges.
+    Enter the administrator username: sys
+  Enter the database password for SYS AS SYSDBA:
+
+Retrieving information.
+ORDS is not installed in the database. ORDS installation is required.
+
+  Enter a number to update the value or select option A to Accept and Continue
+    [1] Connection Type: Basic
+    [2] Basic Connection: HOST=orafree26ai PORT=1521 SERVICE_NAME=freepdb1
+           Administrator User: SYS AS SYSDBA
+    [3] Database password for ORDS runtime user (ORDS_PUBLIC_USER): <generate>
+    [4] ORDS runtime user and schema tablespaces:  Default: SYSAUX Temporary TEMP
+    [5] Additional Feature: Database Actions
+    [6] Configure and start ORDS in Standalone Mode: Yes
+    [7]    Protocol: HTTP
+    [8]       HTTP Port: 8080
+    [9]   APEX static resources location: null
+    [A] Accept and Continue - Create configuration and Install ORDS in the database
+    [Q] Quit - Do not proceed. No changes
+  Choose [A]: A
+```
+
+Stop the container for ORDS once the install is complete.  Notice that once the container has been stopped, it will be removed as the '--rm' tag was used on the installation.  The next time the container is run it'll use the 'serve' option instead of 'install' and the config file created on the install will be used.
+
+## Restart the ORDS container
+
+From the local machine terminal, run the ORDS container again using the 'serve' option.
+**Docker**
+```
+docker run -it --name ords2611 --network oracle-network -p 8080:8080 -v ~/Container/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest serve
+```
+
+**Podman**
+```
+podman run -it --name ords2611 --network oracle-network -p 8080:8080 -v ~/Podman/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest serve
+```
+
+## Open APEX
+
+If using the static CDN to serve the images which was an option during the APEX installation, navigate to the following to complete the installation:-
+
+```
+https://localhost:8080/ords](http://localhost:8080/ords/_/landing
+```
+
+First connect to the following: -
+
+```
+Workspace : INTERNAL
+Username  : ADMIN
+Password  : (the password used in the change password script during installation)
 ```
