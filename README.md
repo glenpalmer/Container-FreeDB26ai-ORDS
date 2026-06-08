@@ -226,6 +226,13 @@ ORDS is not installed in the database. ORDS installation is required.
 
 Stop the container for ORDS once the install is complete.  Notice that once the container has been stopped, it will be removed as the '--rm' tag was used on the installation.  The next time the container is run it'll use the 'serve' option instead of 'install' and the config file created on the install will be used.
 
+When using images from a static location and not being served by the CDN, a quick update to the 'settings.xml' for standalone should include a pointer to a location where the images can be served from.  In this following example, the images folder from APEX should be copied to this location so that ORDS can serve those images.
+
+```
+<entry key="standalone.static.path">/etc/ords/config/global/static/images</entry>
+```
+
+
 ## Restart the ORDS container
 
 From the local machine terminal, run the ORDS container again using the 'serve' option.
