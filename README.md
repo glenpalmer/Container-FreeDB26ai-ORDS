@@ -38,7 +38,7 @@ podman network create oracle-network
 
 Run the container for the Database, first create a local directory structure to map a volume to so data can be persistent, else the data files from the Database will be removed when the container is stopped.
 
-In this example the local directory ~/Podman/orafree25ai/oradata will be mapped to the conatiner directory /opt/oracle/oradata
+In this example the local directory ~/Podman/orafree26ai/oradata will be mapped to the conatiner directory /opt/oracle/oradata
 
 Not the first time this container runs, it may take some time to complete as the database needs to be created.
 
