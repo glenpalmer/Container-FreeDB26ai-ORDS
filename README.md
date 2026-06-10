@@ -47,9 +47,11 @@ Not the first time this container runs, it may take some time to complete as the
 docker run -d --name orafree26ai --hostname orafree26ai --network=oracle-network -p 1521:1521 -v ~/Container/orafree26ai/oradata:/opt/oracle/oradata container-registry.oracle.com/database/free:latest
 ```
 
+Note on Podman the optional tag for :U on the mapping of the volume, this will be used to resolve the issue of ownership of directories which can happen in Podman.
+
 **Podman**
 ```
-podman run -d --name orafree26ai --hostname orafree26ai --network=oracle-network -p 1521:1521 -v ~/Podman/orafree26ai/oradata:/opt/oracle/oradata container-registry.oracle.com/database/free:latest
+podman run -d --name orafree26ai --hostname orafree26ai --network=oracle-network -p 1521:1521 -v ~/Podman/orafree26ai/oradata:/opt/oracle/oradata:U container-registry.oracle.com/database/free:latest
 ```
 
 ## Change Password
