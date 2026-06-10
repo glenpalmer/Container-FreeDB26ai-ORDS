@@ -173,6 +173,10 @@ Notice the first time this container is run, the 'install' option is used.
 docker run --rm -it --name ords2611 --network oracle-network -p 8080:8080 -e DBHOST=orafree26ai -e DBPORT=1521 -e DBSERVICE=freepdb1 -e ORACLE_PWD=passsword -v ~/Container/oraords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest install
 ```
 
+Note look at adding the following tag.
+
+--userns=keep-id:uid=54321,gid=54321
+
 **Podman**
 ```
 podman run --rm -it --name ords2611 --network oracle-network -p 8080:8080 -e DBHOST=orafree26ai -e DBPORT=1521 -e DBSERVICE=freepdb1 -e ORACLE_PWD=passsword -v ~/Podman/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest install
