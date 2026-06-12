@@ -242,7 +242,7 @@ Stop the container for ORDS once the install is complete.  Notice that once the 
 When using images from a static location and not being served by the CDN (for example developing on a laptop with no internet connection), a quick update to the 'settings.xml' for standalone install should include a pointer to a location where the images can be served from.  In this following example, the images folder from APEX download should be copied to this location so that ORDS can serve those images.
 
 ```
-<entry key="standalone.static.path">/etc/ords/config/global/static/images</entry>
+<entry key="standalone.static.path">/opt/oracle/ords/images</entry>
 ```
 
 Once this pointer in settings has been defined, copy the images directory from the APEX install to the ords location.  This can be completed by using the cp commeand from one container to another, in this example copy images directory from orafree26ai to ords2611.
