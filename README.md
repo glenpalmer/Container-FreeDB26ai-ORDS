@@ -245,6 +245,12 @@ When using images from a static location and not being served by the CDN (for ex
 <entry key="standalone.static.path">/etc/ords/config/global/static/images</entry>
 ```
 
+Once this pointer in settings has been defined, copy the images directory from the APEX install to the ords location.  This can be completed by using the cp commeand from one container to another, in this example copy images directory from orafree26ai to ords2611.
+
+```
+podman cp orafree26ai:/tmp/apex/images/ ords2611:/opt/oracle/ords/
+```
+
 This entry should appear in the following location which is also mapped as a bind volume : -
 
 `etc/ords/config/global/settings.xml`
