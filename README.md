@@ -44,14 +44,14 @@ Not the first time this container runs, it may take some time to complete as the
 
 **Docker**
 ```
-docker run -d --name orafree26ai --hostname orafree26ai --network=oracle-network -p 1521:1521 -v ~/Container/orafree26ai/oradata:/opt/oracle/oradata container-registry.oracle.com/database/free:latest
+docker run -d --name orafree26ai --hostname orafree26ai --network=oracle-network -p 1521:1521 -v ~/Container/Docker/orafree26ai/oradata:/opt/oracle/oradata container-registry.oracle.com/database/free:latest
 ```
 
 Note on Podman the optional tag for :U on the mapping of the volume `-v ~/Podman/orafree26ai/oradata:/opt/oracle/oradata:U`, in some circumstances will additional tag of :U is required to resolve the issue of the container getting permission errors when creating the database.
 
 **Podman**
 ```
-podman run -d --name orafree26ai --hostname orafree26ai --network=oracle-network -p 1521:1521 -v ~/Podman/orafree26ai/oradata:/opt/oracle/oradata container-registry.oracle.com/database/free:latest
+podman run -d --name orafree26ai --hostname orafree26ai --network=oracle-network -p 1521:1521 -v ~/Container/Podman/orafree26ai/oradata:/opt/oracle/oradata container-registry.oracle.com/database/free:latest
 ```
 
 ## Change Password
@@ -170,7 +170,7 @@ Notice the first time this container is run, the 'install' option is used.
 
 **Docker**
 ```
-docker run --rm -it --name ords2611 --network oracle-network -p 8080:8080 -e DBHOST=orafree26ai -e DBPORT=1521 -e DBSERVICE=freepdb1 -e ORACLE_PWD=passsword -v ~/Container/oraords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest install
+docker run --rm -it --name ords2611 --network oracle-network -p 8080:8080 -e DBHOST=orafree26ai -e DBPORT=1521 -e DBSERVICE=freepdb1 -e ORACLE_PWD=passsword -v ~/Container/Docker/oraords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest install
 ```
 
 Note look at adding the following tag.
@@ -179,8 +179,13 @@ Note look at adding the following tag.
 
 **Podman**
 ```
-podman run --rm -it --name ords2611 --network oracle-network -p 8080:8080 -e DBHOST=orafree26ai -e DBPORT=1521 -e DBSERVICE=freepdb1 -e ORACLE_PWD=passsword -v ~/Podman/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest install
+podman run --rm -it --name ords2611 --network oracle-network -p 8080:8080 -e DBHOST=orafree26ai -e DBPORT=1521 -e DBSERVICE=freepdb1 -e ORACLE_PWD=passsword -v ~/Container/Podman/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest install
 ```
+
+Or run without parameters as these will be prompted for in the installation.
+```
+podman run --rm -it --name ords2611 --network oracle-network -p 8080:8080 -v ~/Container/Podman/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest install
+````
 
 The container will run in the terminal and as the 'install' option has been used, prompts will be returned to configure ORDS which will be saved in the config file.  Note that the contaier of the database (orafree26ai) must be running as ORDS will be installed.  The following prompts will appear:
 
@@ -249,12 +254,12 @@ This entry should appear in the following location which is also mapped as a bin
 From the local machine terminal, run the ORDS container again using the 'serve' option.
 **Docker**
 ```
-docker run -it --name ords2611 --network oracle-network -p 8080:8080 -v ~/Container/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest serve
+docker run -it --name ords2611 --network oracle-network -p 8080:8080 -v ~/Container/Docker/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest serve
 ```
 
 **Podman**
 ```
-podman run -it --name ords2611 --network oracle-network -p 8080:8080 -v ~/Podman/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest serve
+podman run -it --name ords2611 --network oracle-network -p 8080:8080 -v ~/Container/Podman/ords2611/config:/etc/ords/config container-registry.oracle.com/database/ords:latest serve
 ```
 
 ## Open APEX
